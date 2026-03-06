@@ -90,6 +90,16 @@ export function registerFilesystemHandlers(): void {
 		return os.homedir();
 	});
 
+	// Create directory recursively (local only)
+	ipcMain.handle('fs:mkdir', async (_, dirPath: string) => {
+		try {
+			await fs.mkdir(dirPath, { recursive: true });
+			return { success: true };
+		} catch (error: any) {
+			return { success: false, error: error.message };
+		}
+	});
+
 	// Read directory contents (supports SSH remote)
 	ipcMain.handle('fs:readDir', async (_, dirPath: string, sshRemoteId?: string) => {
 		// SSH remote: dispatch to remote fs operations

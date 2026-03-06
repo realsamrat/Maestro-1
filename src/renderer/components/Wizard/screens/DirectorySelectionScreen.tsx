@@ -224,19 +224,35 @@ export function DirectorySelectionScreen({ theme }: DirectorySelectionScreenProp
 				try {
 					await window.maestro.fs.readDir(path, sshRemoteId);
 				} catch (dirError) {
-					// Directory doesn't exist or can't be accessed
-					console.error('Directory does not exist:', dirError);
-					setDirectoryError('Directory not found. Please check the path exists.');
-					setIsGitRepo(false);
-					setHasExistingAutoRunDocs(false, 0);
-
-					// Announce error
-					if (shouldAnnounce) {
-						setAnnouncement('Error: Directory not found. Please check the path exists.');
-						setAnnouncementKey((prev) => prev + 1);
+					// Directory doesn't exist — auto-create locally, reject for SSH remotes
+					if (!sshRemoteId) {
+						const mkdirResult = await window.maestro.fs.mkdir(path);
+						if (!mkdirResult.success) {
+							console.error('Failed to create directory:', mkdirResult.error);
+							setDirectoryError('Directory not found and could not be created.');
+							setIsGitRepo(false);
+							setHasExistingAutoRunDocs(false, 0);
+							if (shouldAnnounce) {
+								setAnnouncement('Error: Directory not found and could not be created.');
+								setAnnouncementKey((prev) => prev + 1);
+							}
+							setIsValidating(false);
+							return;
+						}
+						// Directory created — continue with validation
+					} else {
+						// SSH remote: cannot auto-create
+						console.error('Directory does not exist:', dirError);
+						setDirectoryError('Directory not found. Please check the path exists.');
+						setIsGitRepo(false);
+						setHasExistingAutoRunDocs(false, 0);
+						if (shouldAnnounce) {
+							setAnnouncement('Error: Directory not found. Please check the path exists.');
+							setAnnouncementKey((prev) => prev + 1);
+						}
+						setIsValidating(false);
+						return;
 					}
-					setIsValidating(false);
-					return;
 				}
 
 				// Directory exists, now check if it's a git repo

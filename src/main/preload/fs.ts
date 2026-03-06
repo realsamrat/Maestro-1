@@ -59,6 +59,12 @@ export function createFsApi() {
 		homeDir: (): Promise<string> => ipcRenderer.invoke('fs:homeDir'),
 
 		/**
+		 * Create a directory recursively (like mkdir -p). Local only.
+		 */
+		mkdir: (dirPath: string): Promise<{ success: boolean; error?: string }> =>
+			ipcRenderer.invoke('fs:mkdir', dirPath),
+
+		/**
 		 * Read directory contents
 		 */
 		readDir: (dirPath: string, sshRemoteId?: string): Promise<DirectoryEntry[]> =>
