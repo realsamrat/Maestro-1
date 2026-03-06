@@ -349,6 +349,30 @@ export const AGENT_DEFINITIONS: AgentDefinition[] = [
 		command: 'aider',
 		args: [], // Base args (placeholder - to be configured when implemented)
 	},
+	{
+		id: 'pi',
+		name: 'Pi',
+		binaryName: 'pi',
+		command: 'pi',
+		args: [],
+		requiresPty: true, // Pi is an interactive TUI — must run in PTY mode
+		configOptions: [
+			{
+				key: 'extension',
+				type: 'text',
+				label: 'Extension Path',
+				description:
+					'Absolute path to a Pi extension file to load (e.g., /path/to/mintlet.ts). Leave empty to run Pi without an extension.',
+				default: '',
+				argBuilder: (value: string) => {
+					if (value && value.trim()) {
+						return ['-e', value.trim()];
+					}
+					return [];
+				},
+			},
+		],
+	},
 ];
 
 /**

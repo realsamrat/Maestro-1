@@ -103,6 +103,14 @@ export const AGENT_ARTIFACTS: Record<ToolType, string[]> = {
 	terminal: [
 		// Terminal has no agent-specific artifacts
 	],
+	pi: [
+		// Pi-specific extension commands
+		'/pipeline',
+		'/agents',
+		'Mintlet',
+		'mintlet',
+		'Pi coding agent',
+	],
 };
 
 /**
@@ -137,6 +145,11 @@ export const AGENT_TARGET_NOTES: Record<ToolType, string> = {
     Terminal is a raw shell interface.
     It executes shell commands directly without AI interpretation.
   `,
+	pi: `
+    Pi is an interactive AI coding agent with an extension system.
+    It runs as a TUI (text user interface) and supports custom extensions like Mintlet.
+    It can be extended with pipeline-based workflows via .ts extension files.
+  `,
 };
 
 /**
@@ -149,6 +162,7 @@ export function getAgentDisplayName(agentType: ToolType): string {
 		codex: 'OpenAI Codex',
 		'factory-droid': 'Factory Droid',
 		terminal: 'Terminal',
+		pi: 'Pi',
 	};
 	return names[agentType] || agentType;
 }

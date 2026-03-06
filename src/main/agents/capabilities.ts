@@ -308,6 +308,35 @@ export const AGENT_CAPABILITIES: Record<string, AgentCapabilities> = {
 		supportsContextMerge: true, // Can receive merged context via prompts
 		supportsContextExport: true, // Session files are exportable
 	},
+
+	/**
+	 * Pi - Interactive AI coding agent with extension system
+	 * https://pi.mariozechner.at
+	 *
+	 * Pi runs as an interactive TUI (requiresPty: true). No batch/headless mode.
+	 * All interaction happens through the PTY terminal.
+	 */
+	pi: {
+		supportsResume: false,
+		supportsReadOnlyMode: false,
+		supportsJsonOutput: false,
+		supportsSessionId: false,
+		supportsImageInput: false,
+		supportsImageInputOnResume: false,
+		supportsSlashCommands: true, // Pi has /commands (extension-defined)
+		supportsSessionStorage: false,
+		supportsCostTracking: false,
+		supportsUsageStats: false,
+		supportsBatchMode: false, // Pi is interactive-only
+		requiresPromptToStart: false, // PTY mode — no prompt needed to start
+		supportsStreaming: true,
+		supportsResultMessages: false,
+		supportsModelSelection: false,
+		supportsStreamJsonInput: false,
+		supportsThinkingDisplay: false,
+		supportsContextMerge: false,
+		supportsContextExport: false,
+	},
 };
 
 /**

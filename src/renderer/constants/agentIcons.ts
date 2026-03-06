@@ -47,6 +47,9 @@ export const AGENT_ICONS: Record<string, string> = {
 
 	// Terminal/shell (internal)
 	terminal: '💻',
+
+	// Pi coding agent
+	pi: '🥧',
 };
 
 /**
